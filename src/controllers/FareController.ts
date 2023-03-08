@@ -9,7 +9,7 @@ class FareController {
             const {card_number} = req.body;
             const enterExitStationDto: EnterExitStationDto = { station, card_number }
             const balance: number = await FareService.payforRide(enterExitStationDto)
-            res.send({ balance });
+            res.status(200).send({ balance });
         } catch (error) {
             res.status(400).send(error);
         }
@@ -21,7 +21,7 @@ class FareController {
             const {card_number} = req.body;
             const enterExitStationDto: EnterExitStationDto = { station, card_number }
             const balance: number = await FareService.recordRide(enterExitStationDto)
-            res.send({ balance });
+            res.status(200).send({ balance });
         } catch (error) {
             res.status(400).send(error);
         }

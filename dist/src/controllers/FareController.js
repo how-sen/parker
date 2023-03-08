@@ -21,7 +21,7 @@ class FareController {
                 const { card_number } = req.body;
                 const enterExitStationDto = { station, card_number };
                 const balance = yield FareService_1.default.payforRide(enterExitStationDto);
-                res.send({ balance });
+                res.status(200).send({ balance });
             }
             catch (error) {
                 res.status(400).send(error);
@@ -35,7 +35,7 @@ class FareController {
                 const { card_number } = req.body;
                 const enterExitStationDto = { station, card_number };
                 const balance = yield FareService_1.default.recordRide(enterExitStationDto);
-                res.send({ balance });
+                res.status(200).send({ balance });
             }
             catch (error) {
                 res.status(400).send(error);

@@ -17,7 +17,7 @@ const CardService_1 = __importDefault(require("./CardService"));
 const RideService_1 = __importDefault(require("./RideService"));
 const SubwayService_1 = __importDefault(require("./SubwayService"));
 const ioredis_1 = __importDefault(require("ioredis"));
-const redisClient = new ioredis_1.default();
+const redisClient = new ioredis_1.default({ host: 'redis' });
 class FareService extends CardService_1.default {
     constructor() {
         super(...arguments);
@@ -32,6 +32,9 @@ class FareService extends CardService_1.default {
                 const card = yield this._getCardByNumber(card_number);
                 if (!card) {
                     throw new Error(`Card with number ${card_number} not found`);
+                }
+                if (this.lastStation) {
+                    throw new Error(`Card ${card_number} is in station`);
                 }
                 if (card.amount < this.fare) {
                     throw new Error(`Insufficient balance for card ${card_number}`);
@@ -83,7 +86,7 @@ class FareService extends CardService_1.default {
                 return +card.amount;
             }
             catch (err) {
-                throw new Error(`Error recording ride: ${err}`);
+                throw new Error(`Recording ride ${err}`);
             }
         });
     }

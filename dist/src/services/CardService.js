@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dbconnector_1 = __importDefault(require("../dbconfig/dbconnector"));
 class CardService {
-    creatCards(number, amount) {
+    createCards(number, amount) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield dbconnector_1.default.connect();
             try {

@@ -77,6 +77,9 @@ class SubwayService {
                 for (const station in adjacencyList) {
                     distances[station] = Infinity;
                 }
+                if (!(origin in distances) || !(destination in distances)) {
+                    throw new Error('Station not exist, no path found');
+                }
                 distances[origin] = 0;
                 //Dijkstra's algorithm
                 const queue = new priorityqueuejs_1.default();

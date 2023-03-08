@@ -1,5 +1,5 @@
 export interface Station {
-    stations: string;
+    stations: string[];
     "line-name": string;
     fares: number;
 }

@@ -3,7 +3,7 @@ import { Card } from '../types/Card'
 
 
 class CardService {
-    public async creatCards(number: string, amount: number): Promise<Card> {
+    public async createCards(number: string, amount: number): Promise<Card> {
         const client = await pool.connect();
         try{
             // ensure all subsequent queries to be part of the same transaction
@@ -11,7 +11,7 @@ class CardService {
             const existingCard = await this._getCardByNumber(number);
             if (existingCard) {
                 const newBalance: number = +(existingCard.amount as number) + amount
-                const roundedBalance: number = Number(newBalance.toFixed(2));
+                const roundedBalance = Number(newBalance.toFixed(2));
                 const updateCard = await this._updateCardBalance(existingCard.number, roundedBalance, client);
                 // all the queries succeed, commit the transaction
                 await client.query('COMMIT')

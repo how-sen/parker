@@ -18,7 +18,7 @@ class SubwayController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const trains = yield SubwayService_1.default.getAllTrainLines();
-                res.send(trains);
+                res.status(200).send(trains);
             }
             catch (error) {
                 res.status(400).send(error);
@@ -44,7 +44,7 @@ class SubwayController {
                 const destination = req.query.destination;
                 const subwayRouteDto = { origin, destination };
                 const route = yield SubwayService_1.default.getRoute(subwayRouteDto);
-                res.send({ route });
+                res.status(200).send({ route });
             }
             catch (error) {
                 res.status(400).send(error);

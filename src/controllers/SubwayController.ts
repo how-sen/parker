@@ -6,7 +6,7 @@ class SubwayController {
     public async index(req: Request, res: Response) {
         try {
             const trains = await SubwayService.getAllTrainLines();
-            res.send(trains);
+            res.status(200).send(trains);
         } catch (error) {
             res.status(400).send(error);
         }
@@ -28,7 +28,7 @@ class SubwayController {
             const destination: string = req.query.destination as string;
             const subwayRouteDto: SubwayRouteDto = { origin, destination };
             const route = await SubwayService.getRoute(subwayRouteDto);
-            res.send({ route });
+            res.status(200).send({ route });
         } catch (error) {
             res.status(400).send(error);
         }

@@ -19,12 +19,11 @@ class CardController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { number, amount } = req.body;
-                const card = yield cardService.creatCards(number, amount);
+                const card = yield cardService.createCards(number, amount);
                 res.status(201).send(card);
             }
             catch (error) {
-                res.status(400).send(error);
-                res.status(500).json({ message: 'An error occurred while creating the card.' });
+                res.status(500).send({ message: 'An error occurred while creating the card.' });
             }
         });
     }

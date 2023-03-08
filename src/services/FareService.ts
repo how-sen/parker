@@ -5,10 +5,10 @@ import RideService from './RideService';
 import SubwayService from './SubwayService';
 import Redis from 'ioredis';
 
-const redisClient = new Redis({host: 'redis'});
-class FareService extends CardService{
-    private lastStation: String | null = null;
-    private fare: Number | 0 = 0;
+const redisClient = new Redis({ host: 'redis' });
+class FareService extends CardService {
+    private lastStation: string | null = null;
+    private fare: number | 0 = 0;
     public async payforRide(enterExitStationDto: EnterExitStationDto): Promise<number> {
         const client = await pool.connect();
         try {
@@ -26,15 +26,15 @@ class FareService extends CardService{
             if (card.amount < this.fare) {
                 throw new Error(`Insufficient balance for card ${card_number}`);
             }
-            
+
             this.lastStation = station;
             const cachedFare = await redisClient.get(`fare:${station}`);
-            if(cachedFare) {
+            if (cachedFare) {
                 this.fare = +cachedFare;
             } else {
                 const trainLines = await SubwayService.getAllTrainLines();
                 for (const line of trainLines) {
-                    if (line.stations.includes(station)){
+                    if (line.stations.includes(station)) {
                         this.fare = line.fares;
                         break;
                     }
@@ -42,13 +42,13 @@ class FareService extends CardService{
                 if (this.fare === 0) throw new Error(`Station ${station} does not exist`);
                 await redisClient.set(`fare:${station}`, this.fare as number)
             }
-        
+
             const newBalance = +card.amount - +this.fare;
-            const roundedBalance: number = Number(newBalance.toFixed(2));
+            const roundedBalance = Number(newBalance.toFixed(2));
             await this._updateCardBalance(card_number, roundedBalance, client);
 
             return newBalance;
-        } catch(err){
+        } catch (err) {
             console.error(err);
             throw err;
         } finally {
@@ -68,9 +68,9 @@ class FareService extends CardService{
             }
             RideService.saveRide(card_number, this.lastStation.toString(), station, +this.fare)
             this.lastStation = null
-            return +card.amount  
-        }catch (err) {
-            throw new Error(`Error recording ride: ${err}`);
+            return +card.amount
+        } catch (err) {
+            throw new Error(`Recording ride ${err}`);
         }
     }
 }
